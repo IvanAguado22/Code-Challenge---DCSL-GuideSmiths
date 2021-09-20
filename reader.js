@@ -31,23 +31,23 @@ for ( let i = 3; i < dataInput.length; i++) {
     }
 }
 
-console.log(robotsCoor);
-console.log(robotsOrien);
-console.log(robotsInst);
-console.log(numRobots);
 let j = 0;
 let k = 0;
 let n = 0;
 
 move(robotsCoor, robotsOrien, robotsInst, numRobots);
 
-console.log(robotsCoor);
-console.log(robotsOrien);
-console.log(robotsInst);
-console.log(numRobots);
+let coorIndex = 0;
+let orienIndex = 0;
+
+output();
 
 function output(){
-    console.log()
+    for(let i = 0; i < numRobots; i++){
+        console.log(robotsCoor[coorIndex] + " " + robotsCoor[coorIndex + 1] + " " + robotsOrien[orienIndex]);
+        coorIndex += 2;
+        orienIndex++;
+    }    
 }
 
 function move (coor, orien, inst, num){
