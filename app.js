@@ -53,14 +53,6 @@ function storeData(){
     }
 }
 
-function output(){
-    for(let i = 0; i < numRobots; i++){
-        console.log(robotsCoor[coorIndex] + " " + robotsCoor[coorIndex + 1] + " " + robotsOrien[orienIndex]);
-        coorIndex += 2;
-        orienIndex++;
-    }    
-}
-
 function move (){
     for (let i = 0; i < numRobots; i++ ){
         while(robotsInst[j] != '$'){
@@ -118,6 +110,14 @@ function move (){
     n++;
     k += 2;
     }
+}
+
+function output(){
+    for(let i = 0; i < numRobots; i++){
+        console.log(robotsCoor[coorIndex] + " " + robotsCoor[coorIndex + 1] + " " + robotsOrien[orienIndex]);
+        coorIndex += 2;
+        orienIndex++;
+    }    
 }
 
 function isNumeric(str) {
