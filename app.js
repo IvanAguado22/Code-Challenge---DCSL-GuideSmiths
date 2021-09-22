@@ -1,22 +1,31 @@
+class Robot {
+    constructor(){
+        this.id = 0;
+        this.x = 0;
+        this.y = 0;
+        this.orien = '';
+        this.inst = [];
+        this.isLost = false;
+    }
+}
+class Grid {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+    }
+}
 
 // VARIABLES //
-const robotsCoor = [];
-const robotsOrien = [];
-const robotsInst = [];
-var numRobots = 0;
-var gridX;
-var gridY;
-let j = 0;
-let k = 0;
-let n = 0;
-let coorIndex = 0;
-let orienIndex = 0;
+const robots = [];
+let id = 0;
+let dataInput = [];
+const grid = new Grid(0, 0);
 
 // MAIN CODE
-
-storeData();
+readInput();
+createRobots();
 move();
-output();
+printOutput();
 
 // FUNCTIONS //
 function readInput(){
@@ -27,96 +36,102 @@ function readInput(){
         return [...str]
     };
 
-    var dataInput = toChar(input);
-    return dataInput;
+    dataInput = toChar(input);
+
+    grid.x = dataInput[0];
+    grid.y = dataInput[2];
 }
 
-function storeData(){
-    var dataInput = readInput();
-    gridX = parseInt(dataInput[0]);
-    gridY = parseInt(dataInput[2]);
+function createRobots(){
 
-    for ( let i = 3; i < dataInput.length; i++) {
-        if(isNumeric(dataInput[i])){
-            robotsCoor.push(parseInt(dataInput[i]));
+    let robot = new Robot();
+    
+    for(let j = 3; j < dataInput.length; j++){
+        if(isNumeric(dataInput[j])){
+            robot.x = parseInt(dataInput[j]);
+            j += 2;
+            robot.y = parseInt(dataInput[j]);
         }
-        if(dataInput[i] == 'N' || dataInput[i] == 'S' || dataInput[i] == 'E' || dataInput[i] == 'W' ){
-            robotsOrien.push(dataInput[i]);
-            numRobots++;
+        else if(dataInput[j] == 'N' || dataInput[j] == 'S' || dataInput[j] == 'E' || dataInput[j] == 'W' ){
+            robot.orien = dataInput[j];
         }
-        if(dataInput[i] == 'L' || dataInput[i] == 'R' || dataInput[i] == 'F' ){
-            robotsInst.push(dataInput[i]);
-            if(dataInput[i+1] == '\r'){
-                robotsInst.push('$');
+        else if(dataInput[j] == 'L' || dataInput[j] == 'R' || dataInput[j] == 'F' ){
+            robot.inst.push(dataInput[j]);
+            if(dataInput[j + 1] == '\r'){
+                robot.id = id;
+                robots.push(robot);
+                robot = new Robot();
+                id++;
             }
         }
     }
 }
 
-function move (){
-    for (let i = 0; i < numRobots; i++ ){
-        while(robotsInst[j] != '$'){
-            if(robotsInst[j] == 'R'){
-                switch(robotsOrien[n]){
+function move(){
+    for (let i = 0; i < robots.length; i++ ){
+        for (let j = 0; j < robots[i].inst.length; j++){
+            if(robots[i].inst[j] == 'R'){
+                switch(robots[i].orien){
                     case 'N':
-                        robotsOrien[n] = 'E';
+                        robots[i].orien = 'E';
                         break;
                     case 'S':
-                        robotsOrien[n] = 'W';
+                        robots[i].orien = 'W';
                         break;
                     case 'E':
-                        robotsOrien[n] = 'S';
+                        robots[i].orien = 'S';
                         break;
                     case 'W':
-                        robotsOrien[n] = 'N';
+                        robots[i].orien = 'N';
                         break;
                 }                   
             }          
-            else if(robotsInst[j] == 'L'){
-                switch(robotsOrien[n]){
+            else if(robots[i].inst[j] == 'L'){
+                switch(robots[i].orien){
                     case 'N':
-                        robotsOrien[n] = 'W';
+                        robots[i].orien = 'W';
                         break;
                     case 'S':
-                        robotsOrien[n] = 'E';
+                        robots[i].orien = 'E';
                         break;
                     case 'E':
-                        robotsOrien[n] = 'N';
+                        robots[i].orien = 'N';
                         break;
                     case 'W':
-                        robotsOrien[n] = 'S';
+                        robots[i].orien = 'S';
                         break;
                 }                                 
             }
-            else if(robotsInst[j] == 'F'){
-                switch(robotsOrien[n]){
+            else if(robots[i].inst[j] == 'F'){
+                switch(robots[i].orien){
                     case 'N':
-                        robotsCoor[k + 1] += 1;
+                        robots[i].y += 1;
+                        if(robots[i].y > grid.y) robots[i].isLost = true; 
                         break;
                     case 'S':
-                        robotsCoor[k + 1] -= 1;
+                        robots[i].y -= 1;
                         break;
                     case 'E':
-                        robotsCoor[k] += 1;
+                        robots[i].x += 1;
                         break;
                     case 'W':
-                        robotsCoor[k] -= 1;
+                        robots[i].x -= 1;
                         break;
                 }           
             }
-        j++;       
-        }
-    j++;
-    n++;
-    k += 2;
+        }        
     }
 }
 
-function output(){
-    for(let i = 0; i < numRobots; i++){
-        console.log(robotsCoor[coorIndex] + " " + robotsCoor[coorIndex + 1] + " " + robotsOrien[orienIndex]);
-        coorIndex += 2;
-        orienIndex++;
+
+function printOutput(){
+    for(let i = 0; i < robots.length; i++){
+        if(robots[i].isLost == false){
+            console.log(robots[i].x + " " + robots[i].y + " " + robots[i].orien);
+        }
+        else{
+            console.log(robots[i].x + " " + robots[i].y + " " + robots[i].orien + " LOST"); 
+        }
     }    
 }
 

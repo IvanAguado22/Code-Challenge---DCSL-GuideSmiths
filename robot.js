@@ -1,9 +1,14 @@
 class Robot {
-    constructor(id, x, y, orien, isLost){
+    constructor(){
+        this.isLost = false;
+        this.inst = [];
+    }
+    constructor(id, x, y, orien, inst, isLost){
         this.id = id;
         this.x = x;
         this.y = y;
         this.orien = orien;
-        this.isLost = isLost;
+        this.inst = inst;
+        this.isLost = false;
     }
 }
