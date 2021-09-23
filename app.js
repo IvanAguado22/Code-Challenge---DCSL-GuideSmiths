@@ -11,6 +11,7 @@ class Robot {
         this.isLost = false;
     }
 }
+
 //Class for the grid with its respective attributes
 class Grid {
     constructor(x, y){
@@ -37,7 +38,7 @@ printOutput();
 //Reads the input file
 function readInput(){
     var fs = require('fs');
-    var input = fs.readFileSync('input.txt', 'utf-8');
+    var input = fs.readFileSync('correctInput.txt', 'utf-8');
 
     let toChar = function(str) {
         return [...str]
