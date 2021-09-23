@@ -1,3 +1,5 @@
+const { exit } = require('process');
+
 class Robot {
     constructor(){
         this.id = 0;
@@ -18,6 +20,7 @@ class Grid {
 // VARIABLES //
 const robots = [];
 let id = 0;
+let instLength = 0;
 let dataInput = [];
 const grid = new Grid(0, 0);
 
@@ -38,8 +41,33 @@ function readInput(){
 
     dataInput = toChar(input);
 
-    grid.x = dataInput[0];
-    grid.y = dataInput[2];
+    for(let i = 0; i < dataInput.length; i++){
+        if(dataInput[i] == 'L' || dataInput[i] == 'R' || dataInput[i] == 'F'){
+            instLength++;
+            if(dataInput[i+1] == '\r'){
+                if(instLength >= 100){
+                    console.log('All instruction strings must be less than 100 characters in length');
+                    exit();
+                }
+                else{
+                    instLength = 0;
+                }
+            }
+        }
+    }
+
+    if(dataInput[0] > 50){
+        console.log('The x-coordinate of the grid must be at most 50');
+        exit();
+    }
+    else if(dataInput[2] > 50){
+        console.log('The y-coordinate of the grid must be at most 50');
+        exit();
+    }
+    else{
+        grid.x = dataInput[0];
+        grid.y = dataInput[2];
+    }
 }
 
 function createRobots(){
@@ -48,8 +76,16 @@ function createRobots(){
     
     for(let j = 3; j < dataInput.length; j++){
         if(isNumeric(dataInput[j])){
+            if (dataInput[j] > 50){
+                console.log('The x-coordinate of the robot must be at most 50');
+                exit();
+            }
             robot.x = parseInt(dataInput[j]);
             j += 2;
+            if (dataInput[j] > 50){
+                console.log('The y-coordinate of the robot must be at most 50');
+                exit();
+            }
             robot.y = parseInt(dataInput[j]);
         }
         else if(dataInput[j] == 'N' || dataInput[j] == 'S' || dataInput[j] == 'E' || dataInput[j] == 'W' ){
