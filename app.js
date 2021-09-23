@@ -55,6 +55,10 @@ function readInput(){
             dataInput.push(strNumber);
             i++;
         }
+        else if(dataInputAux[i] == '-' && isNumeric(dataInputAux[i+1])){
+            console.log('No coordinate can be a negative number');
+            exit();
+        }
         else if(dataInputAux[i] == '\r' || dataInputAux[i] == '\n' || dataInputAux[i] == 'R' || dataInputAux[i] == 'L' || dataInputAux[i] == 'F' 
         || dataInputAux[i] == 'N' || dataInputAux[i] == 'S' || dataInputAux[i] == 'W' || dataInputAux[i] == 'E' || isNumeric(dataInputAux[i]) 
         || dataInputAux[i] == ' '){
