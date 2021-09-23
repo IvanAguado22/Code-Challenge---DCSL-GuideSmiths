@@ -7,6 +7,8 @@ A txt file has been used for the input, where the coordinates of the grid, those
 
 The aforementioned pdf also includes specifications about the rest of the objectives of this test. At the same time, the project is commented in a way that makes it easy to relate the requirements of the statement to the code.
 
+In order to test the code, different input txt files have been included, with identifying names for each test case. These are located in the folder called "Tests".
+
 HOW TO RUN THE PROJECT
 
 To run the project you just need to have nodejs installed, access from the terminal to the directory where the main code is located and run "node app.js". Previously you must have detailed in the file app.js, line 41, the name of the input txt. It should be noted that this txt must be in the same directory as app.js.
