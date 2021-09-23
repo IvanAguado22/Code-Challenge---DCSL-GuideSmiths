@@ -156,12 +156,15 @@ function move(){
                         break;
                     case 'S':
                         robots[i].y -= 1;
+                        if(robots[i].y < 0) robots[i].isLost = true;
                         break;
                     case 'E':
                         robots[i].x += 1;
+                        if(robots[i].x > grid.x) robots[i].isLost = true;
                         break;
                     case 'W':
                         robots[i].x -= 1;
+                        if(robots[i].x < 0) robots[i].isLost = true;
                         break;
                 }           
             }
