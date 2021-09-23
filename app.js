@@ -39,7 +39,32 @@ function readInput(){
         return [...str]
     };
 
-    dataInput = toChar(input);
+    let dataInputAux = toChar(input);
+
+    for(let i = 0; i < dataInputAux.length; i++){
+        if(isNumeric(dataInputAux[i]) && isNumeric(dataInputAux[i+1])){
+            if(isNumeric(dataInputAux[i + 2])){
+                console.log('The maximum value for any coordinate is 50')
+                exit();
+            }
+            var strNumber = dataInputAux[i] + dataInputAux[i+1];
+            if(parseInt(strNumber) > 50){
+                console.log('The maximum value for any coordinate is 50')
+                exit();
+            }
+            dataInput.push(strNumber);
+            i++;
+        }
+        else if(dataInputAux[i] == '\r' || dataInputAux[i] == '\n' || dataInputAux[i] == 'R' || dataInputAux[i] == 'L' || dataInputAux[i] == 'F' 
+        || dataInputAux[i] == 'N' || dataInputAux[i] == 'S' || dataInputAux[i] == 'W' || dataInputAux[i] == 'E' || isNumeric(dataInputAux[i]) 
+        || dataInputAux[i] == ' '){
+            dataInput.push(dataInputAux[i]);
+        }
+        else{
+            console.log(dataInputAux[i] + " is an invalid input character")
+            exit();
+        }
+    }
 
     for(let i = 0; i < dataInput.length; i++){
         if(dataInput[i] == 'L' || dataInput[i] == 'R' || dataInput[i] == 'F'){
@@ -55,19 +80,8 @@ function readInput(){
             }
         }
     }
-
-    if(dataInput[0] > 50){
-        console.log('The x-coordinate of the grid must be at most 50');
-        exit();
-    }
-    else if(dataInput[2] > 50){
-        console.log('The y-coordinate of the grid must be at most 50');
-        exit();
-    }
-    else{
-        grid.x = dataInput[0];
-        grid.y = dataInput[2];
-    }
+    grid.x = dataInput[0];
+    grid.y = dataInput[2];
 }
 
 function createRobots(){
@@ -76,16 +90,8 @@ function createRobots(){
     
     for(let j = 3; j < dataInput.length; j++){
         if(isNumeric(dataInput[j])){
-            if (dataInput[j] > 50){
-                console.log('The x-coordinate of the robot must be at most 50');
-                exit();
-            }
             robot.x = parseInt(dataInput[j]);
             j += 2;
-            if (dataInput[j] > 50){
-                console.log('The y-coordinate of the robot must be at most 50');
-                exit();
-            }
             robot.y = parseInt(dataInput[j]);
         }
         else if(dataInput[j] == 'N' || dataInput[j] == 'S' || dataInput[j] == 'E' || dataInput[j] == 'W' ){
@@ -158,8 +164,6 @@ function move(){
         }        
     }
 }
-
-
 function printOutput(){
     for(let i = 0; i < robots.length; i++){
         if(robots[i].isLost == false){
