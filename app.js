@@ -17,6 +17,15 @@ class Grid {
     constructor(x, y){
         this.x = x;
         this.y = y;
+
+        let arrAux1 = new Array();
+        arrAux1.length = x;
+        let arrAux2 = new Array();
+        arrAux2.length = y;
+        let arrAux3 = new Array();
+        arrAux3.length = 4;
+
+        this.edge = new Array(arrAux1, arrAux2, arrAux3) // The third dimension corresponds to the different orientations within a box. 0: North, 1: South, 2: East, 3: West
     }
 }
 
@@ -25,10 +34,9 @@ const robots = [];
 let id = 0;
 let instLength = 0;
 let dataInput = [];
-const grid = new Grid(0, 0);
+let grid = readInput();
 
 // MAIN CODE
-readInput();
 createRobots();
 move();
 printOutput();
@@ -92,8 +100,10 @@ function readInput(){
         }
     }
     //The coordinates read are assigned to the grid
-    grid.x = dataInput[0];
-    grid.y = dataInput[2];
+    const grid1 = new Grid(dataInput[0], dataInput[2]);
+
+    return grid1;
+    
 }
 
 //Creates robots based on the input data and assigns values to their attributes
@@ -161,20 +171,52 @@ function move(){
             else if(robots[i].inst[j] == 'F'){ //Moves the robot one square in the direction of its orientation
                 switch(robots[i].orien){
                     case 'N':
+                        if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][0] == true && (robots[i].y + 1) > grid.y){
+                            break;
+                        }
                         robots[i].y += 1;
-                        if(robots[i].y > grid.y) robots[i].isLost = true; //Robot lost in the north
+                        if(robots[i].y > grid.y){ 
+                            robots[i].isLost = true; //Robot lost in the north
+                            grid.edge[0][robots[i].x] = true;
+                            grid.edge[1][robots[i].y - 1] = true;
+                            grid.edge[2][0] = true;
+                        }
                         break;
                     case 'S':
+                        if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][1] == true && (robots[i].y - 1) < 0){
+                            break;
+                        }
                         robots[i].y -= 1;
-                        if(robots[i].y < 0) robots[i].isLost = true; //Robot lost in the south
+                        if(robots[i].y < 0){
+                            robots[i].isLost = true; //Robot lost in the south
+                            grid.edge[0][robots[i].x] = true;
+                            grid.edge[1][robots[i].y + 1] = true;
+                            grid.edge[2][1] = true;
+                        } 
                         break;
                     case 'E':
+                        if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][2] == true && (robots[i].x + 1) > grid.x){
+                            break;
+                        }
                         robots[i].x += 1;
-                        if(robots[i].x > grid.x) robots[i].isLost = true; //Robot lost in the east
+                        if(robots[i].x > grid.x){
+                            robots[i].isLost = true; //Robot lost in the east
+                            grid.edge[0][robots[i].x - 1] = true;
+                            grid.edge[1][robots[i].y] = true;
+                            grid.edge[2][2] = true;
+                        } 
                         break;
                     case 'W':
+                        if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][3] == true && (robots[i].x - 1) < 0){
+                            break;
+                        }
                         robots[i].x -= 1;
-                        if(robots[i].x < 0) robots[i].isLost = true; //Robot lost in the west
+                        if(robots[i].x < 0){
+                            robots[i].isLost = true; //Robot lost in the west
+                            grid.edge[0][robots[i].x + 1] = true;
+                            grid.edge[1][robots[i].y] = true;
+                            grid.edge[2][3] = true;
+                        } 
                         break;
                 }           
             }
