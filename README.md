@@ -13,6 +13,6 @@ In order to test the code, different input txt files have been included, with id
 
 HOW TO RUN THE PROJECT
 
-To run the project you just need to have nodejs installed, access from the terminal to the directory where the main code is located and run "node app.js". Previously you must have detailed in the file app.js, line 41, the name of the input txt. It should be noted that this txt must be in the same directory as app.js.
+To run the project you just need to have nodejs installed, access from the terminal to the directory where the main code is located and run "node app.js". Previously you must have detailed in the file app.js, line 50, the name of the input txt. It should be noted that this txt must be in the same directory as app.js.
 
 *** It is important that the input txt has a line break at the end, otherwise it will not work. ***
