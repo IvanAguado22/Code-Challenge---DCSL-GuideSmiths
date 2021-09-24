@@ -19,13 +19,14 @@ class Grid {
         this.y = y;
 
         let arrAux1 = new Array();
-        arrAux1.length = x;
+        arrAux1.length = x; //x coordinate
         let arrAux2 = new Array();
-        arrAux2.length = y;
+        arrAux2.length = y; //y coordinate
         let arrAux3 = new Array();
-        arrAux3.length = 4;
-
-        this.edge = new Array(arrAux1, arrAux2, arrAux3) // The third dimension corresponds to the different orientations within a box. 0: North, 1: South, 2: East, 3: West
+        arrAux3.length = 4; // Corresponds to the different orientations within a box. 0: North, 1: South, 2: East, 3: West
+        
+        //In this array will be noted the edges in which, according to the orientation of a robot, if it takes a step, it will be lost
+        this.edge = new Array(arrAux1, arrAux2, arrAux3); 
     }
 }
 
@@ -99,7 +100,7 @@ function readInput(){
             }
         }
     }
-    //The coordinates read are assigned to the grid
+    //The coordinates read are assigned to the grid and the edge array is initialized
     const grid1 = new Grid(dataInput[0], dataInput[2]);
 
     return grid1;
@@ -171,48 +172,56 @@ function move(){
             else if(robots[i].inst[j] == 'F'){ //Moves the robot one square in the direction of its orientation
                 switch(robots[i].orien){
                     case 'N':
+                        //Robot lost scent in north movements
                         if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][0] == true && (robots[i].y + 1) > grid.y){
                             break;
                         }
                         robots[i].y += 1;
                         if(robots[i].y > grid.y){ 
                             robots[i].isLost = true; //Robot lost in the north
+                            //Indicates the coordinates and orientation of the robot when lost
                             grid.edge[0][robots[i].x] = true;
                             grid.edge[1][robots[i].y - 1] = true;
                             grid.edge[2][0] = true;
                         }
                         break;
                     case 'S':
+                        //Robot lost scent in south movements
                         if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][1] == true && (robots[i].y - 1) < 0){
                             break;
                         }
                         robots[i].y -= 1;
                         if(robots[i].y < 0){
                             robots[i].isLost = true; //Robot lost in the south
+                            //Indicates the coordinates and orientation of the robot when lost
                             grid.edge[0][robots[i].x] = true;
                             grid.edge[1][robots[i].y + 1] = true;
                             grid.edge[2][1] = true;
                         } 
                         break;
                     case 'E':
+                        //Robot lost scent in east movements
                         if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][2] == true && (robots[i].x + 1) > grid.x){
                             break;
                         }
                         robots[i].x += 1;
                         if(robots[i].x > grid.x){
                             robots[i].isLost = true; //Robot lost in the east
+                            //Indicates the coordinates and orientation of the robot when lost
                             grid.edge[0][robots[i].x - 1] = true;
                             grid.edge[1][robots[i].y] = true;
                             grid.edge[2][2] = true;
                         } 
                         break;
                     case 'W':
+                        //Robot lost scent in west movements
                         if(grid.edge[0][robots[i].x] == true && grid.edge[1][robots[i].y] == true && grid.edge[2][3] == true && (robots[i].x - 1) < 0){
                             break;
                         }
                         robots[i].x -= 1;
                         if(robots[i].x < 0){
                             robots[i].isLost = true; //Robot lost in the west
+                            //Indicates the coordinates and orientation of the robot when lost
                             grid.edge[0][robots[i].x + 1] = true;
                             grid.edge[1][robots[i].y] = true;
                             grid.edge[2][3] = true;
